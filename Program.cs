@@ -1,86 +1,145 @@
-﻿// Задача 41: Пользователь вводит с клавиатуры M чисел. Посчитайте, сколько чисел больше 0 ввёл пользователь.
-
-//Вариант решения 1:
+﻿// Задача 47. Задайте двумерный массив размером m×n, заполненный случайными вещественными числами.
 /*
-int[] CreateNewArray(int size)
+double[,] Create2DArray(int m, int n)
 {
-    int[] newArray = new int[size];
-
-    for(int i=0; i<size; i++)
+    double[,] newArray = new double[m,n];
+    Random rand = new Random();
+    for(int i=0; i<m; i++)
     {
-        Console.Write($"Введите {i+1}е целое число:  ");
-        newArray[i] = Convert.ToInt32(Console.ReadLine());
+        for(int j=0; j<n; j++)
+        {
+            newArray[i,j] = Math.Round(rand.Next(-10,10) + rand.NextDouble(),1);     
+        }    
     }
     return newArray;
 }
 
-void ShowArray(int[] array)
+void Show2dArray(double[,] array)
 {
-    Console.Write("Вы ввели следующие числа:  ");
-    for(int i=0; i<array.Length; i++)
-        Console.Write(array[i] + ", ");
-}
-
-int NumberOfPositive(int[] array)
-{
-    int sum=0;
-    for(int i=0; i<array.Length; i++)
+    for(int i=0; i<array.GetLength(0); i++)
     {
-        if(array[i]>0) sum=sum+1;
+        for(int j=0; j<array.GetLength(1); j++)
+        {
+            Console.Write(array[i,j] + " ");
+        }
+        Console.WriteLine();
     }
-    return sum;
+    Console.WriteLine();
 }
 
-Console.Write($"Сколько чисел вы хотите ввести?  ");
-int number = Convert.ToInt32(Console.ReadLine());
-int[] newArray = CreateNewArray(number);
-ShowArray(newArray);
-int sum = NumberOfPositive(newArray);
-Console.Write($"Вы ввели {sum} чисел больше 0");*/
+Console.Write("Введите количество строк:  ");
+int rows = Convert.ToInt32(Console.ReadLine());
+Console.Write("Введите количество столбцов:  ");
+int columns = Convert.ToInt32(Console.ReadLine());
 
-//Вариант решения 2:
+Show2dArray(Create2DArray(rows,columns));*/
+
+// Задача 50. Напишите программу, которая на вход принимает позиции элемента в двумерном массиве, и возвращает значение этого элемента или же указание, что такого элемента нет.
 /*
-int ShowNumbers(int M)
+int[,] CreateRandom2DArray(int m, int n)
 {
-    int sum = 0;
-    for(int i=1; i<=M; i++)
+    int[,] newArray = new int[m,n];
+    for(int i=0; i<m; i++)
     {
-        Console.Write($"Введите {i}е целое число:  ");
-        int number = Convert.ToInt32(Console.ReadLine());
-        if(number>0) sum=sum+1;
+        for(int j=0; j<n; j++)
+        {
+            newArray[i,j] = new Random().Next(1,10);     
+        }    
     }
-    return sum;
+    return newArray;
 }
-Console.Write($"Сколько чисел вы хотите ввести?  ");
-int number = Convert.ToInt32(Console.ReadLine());
-int positive = ShowNumbers(number);
-Console.Write($"Введено {positive} чисел больше нуля");*/
 
+void Show2dArray(int[,] array)
+{
+    for(int i=0; i<array.GetLength(0); i++)
+    {
+        for(int j=0; j<array.GetLength(1); j++)
+        {
+            Console.Write(array[i,j] + " ");
+        }
+        Console.WriteLine();
+    }
+    Console.WriteLine();
+}
 
-//Задача 43: Напишите программу, которая найдёт точку пересечения двух прямых, заданных уравнениями y = k1 * x + b1, y = k2 * x + b2; 
-//значения b1, k1, b2 и k2 задаются пользователем.
+int MeaningOfCertainElement(int[,] array, int row, int column)
+{
+    int result = 0;
+    if(row>array.GetLength(0) || column>array.GetLength(1)) Console.WriteLine($"Элемента {row}й строки {column}го столбца не существует");
+    else result = array[row-1,column-1]; 
+    return result;
+}
+
+Console.WriteLine("Задан двумерный массив размерностью 4*5.");
+Console.WriteLine("Введите позицию элемента массива, значение которого хотите узнать:");
+Console.Write("- Номер строки:  ");
+int r = Convert.ToInt32(Console.ReadLine());
+Console.Write("- Номер столбца:  ");
+int c = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine();
+int[,] array = CreateRandom2DArray(4,5);
+Show2dArray(array);
+int meaning = MeaningOfCertainElement(array, r, c);
+Console.WriteLine($"Значение элемента массива ({r},{c}) равно {meaning}");*/
+
+// Задача 52. Задайте двумерный массив из целых чисел. Найдите среднее арифметическое элементов в каждом столбце.
 /*
-double FindX (double b1, double k1, double b2, double k2)
+int[,] CreateRandom2DArray(int m, int n)
 {
-    double x = (b2-b1) / (k1-k2);
-    return x;
+    int[,] newArray = new int[m,n];
+    for(int i=0; i<m; i++)
+    {
+        for(int j=0; j<n; j++)
+        {
+            newArray[i,j] = new Random().Next(1,10);     
+        }    
+    }
+    return newArray;
 }
 
-double FindY (double x, double b1, double k1)
+void Show2dArray(int[,] array)
 {
-    double y = k1*x+b1;
-    return y;
+    for(int i=0; i<array.GetLength(0); i++)
+    {
+        for(int j=0; j<array.GetLength(1); j++)
+        {
+            Console.Write(array[i,j] + "   ");
+        }
+        Console.WriteLine();
+    }
+    Console.WriteLine();
 }
 
-Console.Write($"Введите значение b1  ");
-double numberb1 = Convert.ToDouble(Console.ReadLine());
-Console.Write($"Введите значение k1  ");
-double numberk1 = Convert.ToDouble(Console.ReadLine());
-Console.Write($"Введите значение b2  ");
-double numberb2 = Convert.ToDouble(Console.ReadLine());
-Console.Write($"Введите значение k2  ");
-double numberk2 = Convert.ToDouble(Console.ReadLine());
-double crossX = FindX (numberb1, numberk1, numberb2, numberk2);
-double crossY = FindY (crossX, numberb1, numberk1);
-Console.Write($"Координаты точки пересечения двух прямых: ({crossX}; {crossY})");*/
+void ShowArray(double[] array)
+{
+    for(int i=0; i < array.Length; i++)
+        Console.Write(array[i]+ "  ");
 
+        Console.WriteLine();
+}
+
+double[] MathAverageOfColumns(int[,] array, int n)
+{
+    double sum = 0;
+    double[] newArray = new double[n];
+    for(int j=0; j<array.GetLength(1); j++) 
+    {
+        for(int i=0; i<array.GetLength(0); i++)
+        {
+            sum = sum + array[i,j];
+        }
+    newArray[j] = sum / array.GetLength(1);
+    sum = 0;
+    }
+    return newArray;
+}
+
+Console.Write("Введите количество строк двумерного массива:  ");
+int rows = Convert.ToInt32(Console.ReadLine());
+Console.Write("Введите количество столбцов двумерного массива:  ");
+int columns = Convert.ToInt32(Console.ReadLine());
+int[,] array = CreateRandom2DArray(rows, columns);
+Show2dArray(array);
+double[] average = MathAverageOfColumns(array, columns);
+Console.Write("Среднее арифметическое каждого столбца:  ");
+ShowArray(average);*/
